@@ -1,5 +1,5 @@
-
 package project305;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,10 +9,13 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
 public class SignUp {
+
     boolean flag;
     private static File file = new File("database.txt");
-    boolean isValid(String UsernameField,String Fname, String Lname, String Email, String Phone, String passField, String passConfirmField) {
+
+    boolean isValid(String UsernameField, String Fname, String Lname, String Email, String Phone, String passField, String passConfirmField) {
         String Username = UsernameField;
         String password = passField;
         String password2 = passConfirmField;
@@ -26,6 +29,8 @@ public class SignUp {
             JOptionPane.showMessageDialog(null, "Please Enter Password and Username");
         } else if (!password.equals(password2)) { // check if the passwords don't match 
             JOptionPane.showMessageDialog(null, "passwords don't match");
+        } else if (Phone.isEmpty() || Phone.trim().equalsIgnoreCase("")) {
+            Phone = null;
         } else {//if all the fields are filled 
             try {
                 Scanner input = new Scanner(file);

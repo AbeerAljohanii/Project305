@@ -5,6 +5,8 @@
  */
 package project305;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ra52m
@@ -17,7 +19,7 @@ public class VerificationGUI extends javax.swing.JFrame {
     public VerificationGUI() {
         initComponents();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -83,10 +85,14 @@ public class VerificationGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_Back_jButton1ActionPerformed
 
     private void Verification_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Verification_jButton1ActionPerformed
-        ResetPasswordGUI reset = new ResetPasswordGUI();
-        reset.show(true);
-        reset.show(false);
-
+        Verification verificationClass = new Verification();
+        if (VerificationCode_jTextField1.getText().equals(verificationClass.getCode())) {
+            ResetPasswordGUI reset = new ResetPasswordGUI();
+            reset.show(true);
+            reset.show(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Verification code do not match");
+        }
     }//GEN-LAST:event_Verification_jButton1ActionPerformed
 
     /**
