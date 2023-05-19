@@ -5,6 +5,9 @@
  */
 package project305;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class LoginGUI extends javax.swing.JFrame {
 
     /**
@@ -106,9 +109,14 @@ public class LoginGUI extends javax.swing.JFrame {
 
     private void Login_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Login_jButton1ActionPerformed
         String name = UserName_jTextField1.getText();
-        String password = new String(jPasswordField1.getText());
+        String password = new String(jPasswordField1.getPassword());
         loginClass login = new loginClass();
-        boolean flag = login.isValid(name, password);
+        boolean flag = false;
+        try {
+            flag = login.isValid(name, password);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         /*if the username and password correct 
             show the home frame and close this one */
         if (flag) {

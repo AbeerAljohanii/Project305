@@ -1,15 +1,11 @@
-
 package project305;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 public class loginClass {
-        private static File file = new File("database.txt");
 
-   boolean isValid(String enteredEmail,String enteredPassword){
+    private DataBase database = new DataBase();
+
+    boolean isValid(String enteredEmail, String enteredPassword) throws ClassNotFoundException {
+        boolean flag = false;
         String name = enteredEmail;
         String password = enteredPassword;
         if (name.isEmpty() || name.trim().equalsIgnoreCase("")) {//check if the user did not enter name 
@@ -19,26 +15,17 @@ public class loginClass {
         } else if (password.equalsIgnoreCase("") && name.equalsIgnoreCase("")) { // check if the user and password null
             JOptionPane.showMessageDialog(null, "Please Enter Password and Username");
         } else {
-            //check if the username and password valid 
-            try {
-                Scanner input = new Scanner(file);
-                while (input.hasNext()) {
-                    if (input.next().equalsIgnoreCase("login")) {
-                        String nameFile = input.next();
-                        String passFile = input.next();
-                        if (nameFile.equals(name) && passFile.equals(password)) {
-                            return true; //retrun true to open home page and close this page 
-                        }
-                    } else {
-                        String line = input.nextLine();
-                    }
+            //check if the username and password valid
+            if (database.checkUsername(name)) {
+                if (database.checkUsername_Password(name, password)) {
+                    flag = true; // login successfuly
+                } else {
+                    JOptionPane.showMessageDialog(null, "The password is incorrect. Try again "); // check if the user name and password do not match
                 }
-                input.close();
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
+            } else {
+                JOptionPane.showMessageDialog(null, "The username incorrect.");
             }
-            JOptionPane.showMessageDialog(null, "Sorry we could not find your account");
         }
-        return false;
+        return flag;
     }
 }

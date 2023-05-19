@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package project305;
 
-/**
- *
- * @author ra52m
- */
+import com.sun.glass.events.KeyEvent;
+import java.sql.SQLException;
+
 public class SignupGUI extends javax.swing.JFrame {
 
     /**
@@ -79,6 +73,11 @@ public class SignupGUI extends javax.swing.JFrame {
         PhoneNumber_jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PhoneNumber_jTextField5ActionPerformed(evt);
+            }
+        });
+        PhoneNumber_jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                PhoneNumber_jTextField5KeyPressed(evt);
             }
         });
         jPanel1.add(PhoneNumber_jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 570, 280, 30));
@@ -157,22 +156,25 @@ public class SignupGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_PhoneNumber_jTextField5ActionPerformed
 
     private void SignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignupActionPerformed
-
+        boolean flag = false;
         String Username = UserName_jTextField1.getText();
         String Fname = FirstName_jTextField2.getText();
         String Lname = LName_jTextField3.getText();
         String password = new String(jPasswordField1.getPassword());
         String passwordConf = new String(ConfirmjPasswordField2.getPassword());
-        String Phone = PhoneNumber_jTextField5.getText();
         String Email = Email_jTextField4.getText();
+        String Phone = PhoneNumber_jTextField5.getText();
         SignUp signupOb = new SignUp();
-        boolean flag = signupOb.isValid(Username, Fname, Lname, Email, Phone, password, passwordConf);
+        try {
+            flag = signupOb.isValid(Username, Fname, Lname, Email, Phone, password, passwordConf);
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
         if (flag) {
             //open home page and close this page 
             HomeGUI homePage = new HomeGUI();
             this.show(false);
             homePage.show(true);
-
         }
 
     }//GEN-LAST:event_SignupActionPerformed
@@ -185,13 +187,38 @@ public class SignupGUI extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         if (jCheckBox1.isSelected()) {
-            jPasswordField1.setEchoChar((char)0);
-            ConfirmjPasswordField2.setEchoChar((char)0);
+            jPasswordField1.setEchoChar((char) 0);
+            ConfirmjPasswordField2.setEchoChar((char) 0);
         } else {
             jPasswordField1.setEchoChar('*');
             ConfirmjPasswordField2.setEchoChar('*');
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void PhoneNumber_jTextField5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PhoneNumber_jTextField5KeyPressed
+        String phone = PhoneNumber_jTextField5.getText();
+        int length = phone.length();
+        char c = evt.getKeyChar();
+        // check for number 0 to 9
+        if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
+            // check for length not more than 10 digits
+            if (length < 10) {
+                PhoneNumber_jTextField5.setEditable(true);
+            } else {
+                PhoneNumber_jTextField5.setEditable(false);
+            }
+        } else {
+            // not allow for keys "back space" and "delete" for edit
+            if (evt.getExtendedKeyCode() == KeyEvent.VK_BACKSPACE || evt.getExtendedKeyCode() == KeyEvent.VK_DELETE) {
+                // allow editable 
+                PhoneNumber_jTextField5.setEditable(true);
+            } else {
+                PhoneNumber_jTextField5.setEditable(false);
+                getToolkit().beep();
+            }
+        }
+
+    }//GEN-LAST:event_PhoneNumber_jTextField5KeyPressed
 
     /**
      * @param args the command line arguments

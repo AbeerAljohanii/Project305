@@ -11,9 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class Verification {
-
     private String code;
-
     public void verification(String Email) {
 
         // Send verification code email

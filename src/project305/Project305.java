@@ -5,9 +5,12 @@
  */
 package project305;
 
-public class Project305 {
+import java.sql.SQLException;
 
-    public static void main(String[] args) {
+public class Project305 {
+    public static void main(String[] args) throws SQLException {
+       DataBase d = new DataBase();
+        d.createDatabase();
     }
     
 }
