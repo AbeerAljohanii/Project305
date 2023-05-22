@@ -9,9 +9,10 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.swing.JOptionPane;
 
 public class Verification {
-    private String code;
+    private static String code;
     public void verification(String Email) {
 
         // Send verification code email
@@ -19,7 +20,7 @@ public class Verification {
         String port = "587";
         String senderEmail = "BookTrackingSystem@gmail.com";
         String senderPassword = "gjrxettakjkgxxgl";
-        String recipientEmail = "Email";
+        String recipientEmail = Email;
         String subject = "Verification Code";
         code = generateVerificationCode();
         String body = "Your verification code is " + code;
@@ -46,9 +47,8 @@ public class Verification {
 
             Transport.send(message);
 
-            System.out.println("Verification code email sent.");
         } catch (MessagingException e) {
-            System.out.println("Error sending verification code email: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error sending verification code email: " + e.getMessage());
         }
     }
 
@@ -61,9 +61,4 @@ public class Verification {
         int code = 100000 + random.nextInt(900000);
         return String.valueOf(code);
     }
-
-    public boolean searchEmail(String Email) { // search if an email exists or not
-        return false;
-    }
-
 }

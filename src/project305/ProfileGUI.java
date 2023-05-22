@@ -30,6 +30,12 @@ public class ProfileGUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         SignOut_jButton1 = new javax.swing.JButton();
         Back_jButton1 = new javax.swing.JButton();
+        ProfileName = new javax.swing.JLabel();
+        ProfileEmail = new javax.swing.JLabel();
+        NumberOfCurrentRead = new javax.swing.JLabel();
+        NumberOfWantRead = new javax.swing.JLabel();
+        NumberOfRead = new javax.swing.JLabel();
+        Logout_label = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -52,6 +58,31 @@ public class ProfileGUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Back_jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 123, 40, 30));
+
+        ProfileName.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        ProfileName.setText("jLabel2");
+        jPanel1.add(ProfileName, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 380, 170, 20));
+        ProfileName.getAccessibleContext().setAccessibleName("ProfileName");
+
+        ProfileEmail.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        ProfileEmail.setText("jLabel2");
+        jPanel1.add(ProfileEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 420, 200, 20));
+
+        NumberOfCurrentRead.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        NumberOfCurrentRead.setText("jLabel2");
+        jPanel1.add(NumberOfCurrentRead, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 480, 50, -1));
+
+        NumberOfWantRead.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        NumberOfWantRead.setText("jLabel2");
+        jPanel1.add(NumberOfWantRead, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 520, -1, -1));
+
+        NumberOfRead.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        NumberOfRead.setText("jLabel2");
+        jPanel1.add(NumberOfRead, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 557, 50, 20));
+
+        Logout_label.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        Logout_label.setText("Log out");
+        jPanel1.add(Logout_label, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 610, 60, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pictures/Profile.png"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -128,6 +159,12 @@ public class ProfileGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back_jButton1;
+    private javax.swing.JLabel Logout_label;
+    public static javax.swing.JLabel NumberOfCurrentRead;
+    public static javax.swing.JLabel NumberOfRead;
+    public static javax.swing.JLabel NumberOfWantRead;
+    public static javax.swing.JLabel ProfileEmail;
+    public static javax.swing.JLabel ProfileName;
     private javax.swing.JButton SignOut_jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

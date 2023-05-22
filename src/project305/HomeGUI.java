@@ -5,6 +5,8 @@
  */
 package project305;
 
+import java.util.StringTokenizer;
+
 /**
  *
  * @author ra52m
@@ -38,6 +40,7 @@ public class HomeGUI extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Read.setBackground(new java.awt.Color(255, 255, 255));
+        Read.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         Read.setText("Read");
         Read.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -47,6 +50,7 @@ public class HomeGUI extends javax.swing.JFrame {
         jPanel1.add(Read, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 550, 220, 40));
 
         CurrentlyReading.setBackground(new java.awt.Color(255, 255, 255));
+        CurrentlyReading.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         CurrentlyReading.setText("Currently Reading");
         CurrentlyReading.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,6 +60,7 @@ public class HomeGUI extends javax.swing.JFrame {
         jPanel1.add(CurrentlyReading, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 390, 220, 40));
 
         WantToRead.setBackground(new java.awt.Color(255, 255, 255));
+        WantToRead.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         WantToRead.setText("Want To Read");
         WantToRead.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,6 +159,20 @@ public class HomeGUI extends javax.swing.JFrame {
 
     private void Profile_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Profile_jButton1ActionPerformed
         ProfileGUI profile = new ProfileGUI();
+        DataBase db = new DataBase();
+        StringTokenizer tokenizer;
+        try {
+            tokenizer = new StringTokenizer(db.ProfileInfo(LoginGUI.name));
+
+            profile.ProfileName.setText(tokenizer.nextToken());
+            profile.ProfileEmail.setText(tokenizer.nextToken());
+            profile.NumberOfCurrentRead.setText(tokenizer.nextToken());
+            profile.NumberOfWantRead.setText(tokenizer.nextToken());
+            profile.NumberOfRead.setText(tokenizer.nextToken());
+            
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+       }
         profile.show(true);
         this.show(false);
     }//GEN-LAST:event_Profile_jButton1ActionPerformed

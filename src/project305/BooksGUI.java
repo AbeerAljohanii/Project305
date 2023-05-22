@@ -21,8 +21,12 @@ public class BooksGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        scrollPane1 = new java.awt.ScrollPane();
         jPanel1 = new javax.swing.JPanel();
         Back_jButton1 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -37,6 +41,16 @@ public class BooksGUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Back_jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 123, 50, 40));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 540, 170, 140));
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 340, 210, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pictures/Books.jpg"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -104,6 +118,10 @@ public class BooksGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back_jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private java.awt.ScrollPane scrollPane1;
     // End of variables declaration//GEN-END:variables
 }

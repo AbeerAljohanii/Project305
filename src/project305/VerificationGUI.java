@@ -86,10 +86,10 @@ public class VerificationGUI extends javax.swing.JFrame {
 
     private void Verification_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Verification_jButton1ActionPerformed
         Verification verificationClass = new Verification();
-        if (VerificationCode_jTextField1.getText().equals(verificationClass.getCode())) {
+        if (VerificationCode_jTextField1.getText().equalsIgnoreCase(verificationClass.getCode())) {
             ResetPasswordGUI reset = new ResetPasswordGUI();
             reset.show(true);
-            reset.show(false);
+            this.show(false);
         } else {
             JOptionPane.showMessageDialog(null, "Verification code do not match");
         }

@@ -13,6 +13,7 @@ public class LoginGUI extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    static String name;
     public LoginGUI() {
         initComponents();
     }
@@ -108,7 +109,7 @@ public class LoginGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_UserName_jTextField1ActionPerformed
 
     private void Login_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Login_jButton1ActionPerformed
-        String name = UserName_jTextField1.getText();
+        name = UserName_jTextField1.getText();
         String password = new String(jPasswordField1.getPassword());
         loginClass login = new loginClass();
         boolean flag = false;
@@ -178,6 +179,10 @@ public class LoginGUI extends javax.swing.JFrame {
                 new LoginGUI().setVisible(true);
             }
         });
+    }
+    
+    public String UserName(){
+        return null;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

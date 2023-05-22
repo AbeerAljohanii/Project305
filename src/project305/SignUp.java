@@ -7,7 +7,6 @@ public class SignUp {
 
     boolean flag;
     private DataBase database = new DataBase();
-    private static int index;
 
     boolean isValid(String Username, String Fname, String Lname, String Email, String Phone, String password, String passConfirmField) throws SQLException, ClassNotFoundException {
         flag = false;
@@ -34,8 +33,7 @@ public class SignUp {
                     if (Phone.isEmpty() || Phone.trim().equalsIgnoreCase("")) { // check if the user did not enter Phone Number
                         Phone = null;
                     }
-                    index++;
-                    database.insert_user(index, Username, Fname, Lname, password, Phone, Email);
+                    database.insert_user(Username, Fname, Lname, password, Phone, Email);
                     flag = true;
 
                     return flag;  //retrun true to open home page and close this page 

@@ -5,6 +5,9 @@
  */
 package project305;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -77,14 +80,21 @@ public class EmailGUI extends javax.swing.JFrame {
 
     private void email_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_email_jButton1ActionPerformed
         String email = Email_jTextField1.getText();
-        Verification verificationClass = new Verification();
-        if (verificationClass.searchEmail(email)) {
-            verificationClass.verification(email);
-            VerificationGUI verification = new VerificationGUI();
-            verification.show(true);
-            this.show(false);
-        } else {
-            JOptionPane.showMessageDialog(null, "Email does not exists");
+        DataBase database = new DataBase();
+        ResetPasswordGUI reset = new ResetPasswordGUI();
+        Verification verificationCode = new Verification(); 
+        try {
+            if (database.checkEmail(email)) {
+                reset.email(email);
+                verificationCode.verification(email);
+                VerificationGUI verification = new VerificationGUI();
+                verification.show(true);
+                this.show(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Email does not exists");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
 
     }//GEN-LAST:event_email_jButton1ActionPerformed
