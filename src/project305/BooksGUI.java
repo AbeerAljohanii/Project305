@@ -5,10 +5,6 @@
  */
 package project305;
 
-/**
- *
- * @author ra52m
- */
 public class BooksGUI extends javax.swing.JFrame {
 
     /**
@@ -24,9 +20,11 @@ public class BooksGUI extends javax.swing.JFrame {
         scrollPane1 = new java.awt.ScrollPane();
         jPanel1 = new javax.swing.JPanel();
         Back_jButton1 = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
+        Read = new javax.swing.JButton();
+        CurrentlyReading = new javax.swing.JButton();
+        WantToRead = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        BooksTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -41,16 +39,41 @@ public class BooksGUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Back_jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 123, 50, 40));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 540, 170, 140));
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        Read.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        Read.setText("Read");
+        Read.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReadActionPerformed(evt);
+            }
         });
-        jScrollPane1.setViewportView(jList1);
+        jPanel1.add(Read, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, -1, -1));
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 340, 210, -1));
+        CurrentlyReading.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        CurrentlyReading.setText("Currently Reading");
+        jPanel1.add(CurrentlyReading, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, -1, -1));
+
+        WantToRead.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        WantToRead.setText("Want To Read");
+        WantToRead.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                WantToReadActionPerformed(evt);
+            }
+        });
+        jPanel1.add(WantToRead, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 300, 130, -1));
+
+        BooksTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title", "Author", "Publish Date"
+            }
+        ));
+        BooksTable.setFocusCycleRoot(true);
+        jScrollPane1.setViewportView(BooksTable);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 320, 470));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pictures/Books.jpg"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -79,6 +102,16 @@ public class BooksGUI extends javax.swing.JFrame {
         Home.show(true);
         this.show(false);
     }//GEN-LAST:event_Back_jButton1ActionPerformed
+
+    private void ReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ReadActionPerformed
+
+    private void WantToReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WantToReadActionPerformed
+
+
+
+    }//GEN-LAST:event_WantToReadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -117,11 +150,13 @@ public class BooksGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back_jButton1;
+    public javax.swing.JTable BooksTable;
+    private javax.swing.JButton CurrentlyReading;
+    private javax.swing.JButton Read;
+    private javax.swing.JButton WantToRead;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
     private java.awt.ScrollPane scrollPane1;
     // End of variables declaration//GEN-END:variables
 }

@@ -54,7 +54,7 @@ public class DataBase {
                     + "   PRIMARY KEY (username, book_id),\n"
                     + "   FOREIGN KEY (username) REFERENCES users(username),\n"
                     + "   FOREIGN KEY (book_id) REFERENCES book(bookID),\n"
-                    + "   rate DECIMAL(3,2)\n"
+                    + "   Review VARCHAR(200)\n"
                     + ");");
 
         } catch (ClassNotFoundException | SQLException e) {
@@ -202,7 +202,7 @@ public class DataBase {
     }
 
     public String ProfileInfo(String username) throws ClassNotFoundException {
-        String result=username;
+        String result = username;
         try {
             ConnectionDataBase();
             PreparedStatement statement = conn.prepareStatement("select email from users where username = ? ");
@@ -212,12 +212,12 @@ public class DataBase {
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 String email = rs.getString("email");
-                result+=" "+email;
+                result += " " + email;
 
             }
             // count # of books for each status
             statement = conn.prepareStatement("SELECT COUNT(*) FROM user_books where username = ? AND status = ?");
-            
+
             // 1: Get the number of books currently reading
             statement.setString(1, username);
             statement.setString(2, "CurrentlyReading");
@@ -227,8 +227,8 @@ public class DataBase {
             while (resultSet.next()) {
                 numberOfBooksRead = resultSet.getInt(1);
             }
-            result+=" "+numberOfBooksRead;
-            
+            result += " " + numberOfBooksRead;
+
             // 2: Get the number of books want to read
             statement.setString(1, username);
             statement.setString(2, "WantToRead");
@@ -238,8 +238,8 @@ public class DataBase {
             while (resultSet.next()) {
                 numberOfBooksRead = resultSet.getInt(1);
             }
-            result+=" "+numberOfBooksRead;
-            
+            result += " " + numberOfBooksRead;
+
             // 3: Get the number of books read
             statement.setString(1, username);
             statement.setString(2, "Read");
@@ -249,12 +249,25 @@ public class DataBase {
             while (resultSet.next()) {
                 numberOfBooksRead = resultSet.getInt(1);
             }
-            result+=" "+numberOfBooksRead;
+            result += " " + numberOfBooksRead;
             // Close the connection
             conn.close();
-            
+
             return result;
-            
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public ResultSet books() throws ClassNotFoundException {
+        try {
+            ConnectionDataBase();
+            Statement st = conn.createStatement();
+            String sql = "select * from book";
+            ResultSet rs = st.executeQuery(sql);
+            return rs;
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

@@ -5,12 +5,12 @@
  */
 package project305;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
 import java.util.StringTokenizer;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author ra52m
- */
 public class HomeGUI extends javax.swing.JFrame {
 
     /**
@@ -28,10 +28,9 @@ public class HomeGUI extends javax.swing.JFrame {
         Read = new javax.swing.JButton();
         CurrentlyReading = new javax.swing.JButton();
         WantToRead = new javax.swing.JButton();
-        jToolBar1 = new javax.swing.JToolBar();
-        Books_jButton2 = new javax.swing.JButton();
-        Community_jButton1 = new javax.swing.JButton();
-        Profile_jButton1 = new javax.swing.JButton();
+        BooksMenu = new javax.swing.JButton();
+        CommunityMenu = new javax.swing.JButton();
+        ProfileMenu = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -69,50 +68,32 @@ public class HomeGUI extends javax.swing.JFrame {
         });
         jPanel1.add(WantToRead, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 470, 220, 40));
 
-        jToolBar1.setBackground(new java.awt.Color(255, 204, 204));
-        jToolBar1.setRollover(true);
-
-        Books_jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        Books_jButton2.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        Books_jButton2.setText("Books");
-        Books_jButton2.setFocusable(false);
-        Books_jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        Books_jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        Books_jButton2.addActionListener(new java.awt.event.ActionListener() {
+        BooksMenu.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        BooksMenu.setText("Books");
+        BooksMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Books_jButton2ActionPerformed(evt);
+                BooksMenuActionPerformed(evt);
             }
         });
-        jToolBar1.add(Books_jButton2);
+        jPanel1.add(BooksMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 280, -1, -1));
 
-        Community_jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        Community_jButton1.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        Community_jButton1.setText("Community");
-        Community_jButton1.setFocusable(false);
-        Community_jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        Community_jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        Community_jButton1.addActionListener(new java.awt.event.ActionListener() {
+        CommunityMenu.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        CommunityMenu.setText("Community");
+        CommunityMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Community_jButton1ActionPerformed(evt);
+                CommunityMenuActionPerformed(evt);
             }
         });
-        jToolBar1.add(Community_jButton1);
+        jPanel1.add(CommunityMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 280, -1, -1));
 
-        Profile_jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        Profile_jButton1.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        Profile_jButton1.setText("Profile");
-        Profile_jButton1.setToolTipText("");
-        Profile_jButton1.setFocusable(false);
-        Profile_jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        Profile_jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        Profile_jButton1.addActionListener(new java.awt.event.ActionListener() {
+        ProfileMenu.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        ProfileMenu.setText("Profile");
+        ProfileMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Profile_jButton1ActionPerformed(evt);
+                ProfileMenuActionPerformed(evt);
             }
         });
-        jToolBar1.add(Profile_jButton1);
-
-        jPanel1.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, 230, 30));
+        jPanel1.add(ProfileMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 280, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pictures/Home.png"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -144,6 +125,10 @@ public class HomeGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_CurrentlyReadingActionPerformed
 
     private void WantToReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WantToReadActionPerformed
+        BooksGUI booksGUI = new BooksGUI();
+        booksGUI.BooksTable.getColumnModel().getColumn(0).setPreferredWidth(180);
+        booksGUI.BooksTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+
         WantToReadGUI WantToRead = new WantToReadGUI();
         WantToRead.show(true);
         this.show(false);
@@ -157,7 +142,47 @@ public class HomeGUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_ReadActionPerformed
 
-    private void Profile_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Profile_jButton1ActionPerformed
+    private void BooksMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BooksMenuActionPerformed
+        // TODO add your handling code here:
+        DataBase database = new DataBase();
+        BooksGUI booksGUI = new BooksGUI();
+        try {
+            ResultSet rs = database.books();
+            while (rs.next()) {
+                String title = rs.getString("title");
+                String author = rs.getString("authorName");
+                String publishDate = rs.getString("publishDate");
+
+                String inputString = publishDate;
+                String wordToRemove = "published";
+                String remainingString = inputString.replace(wordToRemove, "");
+
+                String BookTable[] = {title, author, remainingString};
+                booksGUI.BooksTable.getColumnModel().getColumn(0).setPreferredWidth(180);
+                booksGUI.BooksTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+
+                DefaultTableModel models = (DefaultTableModel) booksGUI.BooksTable.getModel();
+                models.addRow(BookTable);
+
+            }
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        booksGUI.show(true);
+        this.show(false);
+    }//GEN-LAST:event_BooksMenuActionPerformed
+
+    private void CommunityMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CommunityMenuActionPerformed
+        // TODO add your handling code here:
+        CommunityGUI community = new CommunityGUI();
+        community.show(true);
+        this.show(false);
+    }//GEN-LAST:event_CommunityMenuActionPerformed
+
+    private void ProfileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProfileMenuActionPerformed
+        // TODO add your handling code here:
         ProfileGUI profile = new ProfileGUI();
         DataBase db = new DataBase();
         StringTokenizer tokenizer;
@@ -169,26 +194,14 @@ public class HomeGUI extends javax.swing.JFrame {
             profile.NumberOfCurrentRead.setText(tokenizer.nextToken());
             profile.NumberOfWantRead.setText(tokenizer.nextToken());
             profile.NumberOfRead.setText(tokenizer.nextToken());
-            
+
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
-       }
+        }
         profile.show(true);
         this.show(false);
-    }//GEN-LAST:event_Profile_jButton1ActionPerformed
 
-    private void Books_jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Books_jButton2ActionPerformed
-        BooksGUI books = new BooksGUI();
-        books.show(true);
-        this.show(false);
-
-    }//GEN-LAST:event_Books_jButton2ActionPerformed
-
-    private void Community_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Community_jButton1ActionPerformed
-        CommunityGUI Community = new CommunityGUI();
-        Community.show(true);
-        this.show(false);
-    }//GEN-LAST:event_Community_jButton1ActionPerformed
+    }//GEN-LAST:event_ProfileMenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,14 +239,13 @@ public class HomeGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Books_jButton2;
-    private javax.swing.JButton Community_jButton1;
+    private javax.swing.JButton BooksMenu;
+    private javax.swing.JButton CommunityMenu;
     private static javax.swing.JButton CurrentlyReading;
-    private javax.swing.JButton Profile_jButton1;
+    private javax.swing.JButton ProfileMenu;
     private javax.swing.JButton Read;
     private javax.swing.JButton WantToRead;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
