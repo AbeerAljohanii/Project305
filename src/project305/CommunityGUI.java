@@ -24,6 +24,8 @@ public class CommunityGUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         Back_jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ReviewsTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -38,6 +40,19 @@ public class CommunityGUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Back_jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 50, 40));
+
+        ReviewsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Title", "Review"
+            }
+        ));
+        ReviewsTable.setFocusCycleRoot(true);
+        jScrollPane1.setViewportView(ReviewsTable);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 240, 320, 570));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pictures/Community.jpg"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -65,7 +80,7 @@ public class CommunityGUI extends javax.swing.JFrame {
         HomeGUI Home = new HomeGUI();
         Home.show(true);
         this.show(false);
-        
+    
     }//GEN-LAST:event_Back_jButton1ActionPerformed
 
     /**
@@ -105,7 +120,9 @@ public class CommunityGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back_jButton1;
+    public static javax.swing.JTable ReviewsTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

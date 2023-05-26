@@ -82,20 +82,29 @@ public class EmailGUI extends javax.swing.JFrame {
         String email = Email_jTextField1.getText();
         DataBase database = new DataBase();
         ResetPasswordGUI reset = new ResetPasswordGUI();
-        Verification verificationCode = new Verification(); 
-        try {
-            if (database.checkEmail(email)) {
-                reset.email(email);
-                verificationCode.verification(email);
-                VerificationGUI verification = new VerificationGUI();
-                verification.show(true);
-                this.show(false);
-            } else {
-                JOptionPane.showMessageDialog(null, "Email does not exists");
+        Verification verificationCode = new Verification();
+        Runnable waitInput = () -> {
+            try {
+                if (database.checkEmail(email)) {
+                    reset.email(email);
+                    verificationCode.verification(email);
+                    VerificationGUI verification = new VerificationGUI();
+                    verification.show(true);
+                    this.show(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Email does not exists");
+                }
+                Thread.sleep(20000); // wait for 60 seconds
+                if (evt.getSource() != (VerificationGUI.Verification_jButton1)) {
+                    LoginGUI login = new LoginGUI();
+                    this.show(false);
+                    login.show(true);
+                }
+            } catch (SQLException | InterruptedException ex) {
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        };
+        Thread thread = new Thread(waitInput);
+        thread.start();
 
     }//GEN-LAST:event_email_jButton1ActionPerformed
 

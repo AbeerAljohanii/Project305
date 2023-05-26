@@ -5,7 +5,14 @@
  */
 package project305;
 
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 public class BooksGUI extends javax.swing.JFrame {
+
+    DataBase database = new DataBase();
 
     /**
      * Creates new form BooksGUI
@@ -13,6 +20,7 @@ public class BooksGUI extends javax.swing.JFrame {
     public BooksGUI() {
         initComponents();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -51,6 +59,11 @@ public class BooksGUI extends javax.swing.JFrame {
 
         CurrentlyReading.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         CurrentlyReading.setText("Currently Reading");
+        CurrentlyReading.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CurrentlyReadingActionPerformed(evt);
+            }
+        });
         jPanel1.add(CurrentlyReading, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, -1, -1));
 
         WantToRead.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -101,17 +114,88 @@ public class BooksGUI extends javax.swing.JFrame {
         HomeGUI Home = new HomeGUI();
         Home.show(true);
         this.show(false);
+        //BooksTable
+
     }//GEN-LAST:event_Back_jButton1ActionPerformed
 
     private void ReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReadActionPerformed
-        // TODO add your handling code here:
+
+        ReadGUI read = new ReadGUI();
+        TableModel model1 = BooksTable.getModel();
+        int index = BooksTable.getSelectedRow(); // + 1 to access book id 
+
+        String value = BooksTable.getModel().getValueAt(index, 0).toString();
+        index += 1;
+
+        Object[] row = new Object[3];
+        DefaultTableModel model2 = (DefaultTableModel) ReadGUI.BooksTable.getModel();
+        row[0] = model1.getValueAt(index, 0);
+        row[1] = model1.getValueAt(index, 1);
+        row[2] = model1.getValueAt(index, 2);
+        model2.addRow(row);
+        try {
+            if (!database.BookID_Statusdupicate("read", index, LoginGUI.name) && !database.BookID_Statusdupicate("WantToRead", index, LoginGUI.name) && !database.BookID_Statusdupicate("CurrentlyReading", index, LoginGUI.name)) {
+                String Review = JOptionPane.showInputDialog(null, "Enter Review: ");
+                database.insert_user_book(LoginGUI.name, index, "read", 0, Review);
+            } else {
+                JOptionPane.showMessageDialog(null, "The book already added.");
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+        }
+
     }//GEN-LAST:event_ReadActionPerformed
 
     private void WantToReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WantToReadActionPerformed
 
+        WantToReadGUI want = new WantToReadGUI();
+        TableModel model1 = BooksTable.getModel();
+        int index = BooksTable.getSelectedRow(); // + 1 to access book id 
+
+        String value = BooksTable.getModel().getValueAt(index, 0).toString();
+        index += 1;
+
+        Object[] row = new Object[3];
+        DefaultTableModel model2 = (DefaultTableModel) WantToReadGUI.BooksTable.getModel();
+        row[0] = model1.getValueAt(index, 0);
+        row[1] = model1.getValueAt(index, 1);
+        row[2] = model1.getValueAt(index, 2);
+        model2.addRow(row);
+        try {
+            if (!database.BookID_Statusdupicate("read", index, LoginGUI.name) && !database.BookID_Statusdupicate("WantToRead", index, LoginGUI.name) && !database.BookID_Statusdupicate("CurrentlyReading", index, LoginGUI.name)) {
+                database.insert_user_book(LoginGUI.name, index, "WantToRead", 0, null);
+            } else {
+                JOptionPane.showMessageDialog(null, "The book already added.");
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+        }
 
 
     }//GEN-LAST:event_WantToReadActionPerformed
+
+    private void CurrentlyReadingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CurrentlyReadingActionPerformed
+        CurrentReadGUI current = new CurrentReadGUI();
+        TableModel model1 = BooksTable.getModel();
+        int index = BooksTable.getSelectedRow(); // + 1 to access book id 
+        String value = BooksTable.getModel().getValueAt(index, 0).toString();
+        index += 1;
+        Object[] row = new Object[3];
+        DefaultTableModel model2 = (DefaultTableModel) CurrentReadGUI.BooksTable.getModel();
+        row[0] = model1.getValueAt(index, 0);
+        row[1] = model1.getValueAt(index, 1);
+        row[2] = model1.getValueAt(index, 2);
+        model2.addRow(row);
+        try {
+            if (!database.BookID_Statusdupicate("read", index, LoginGUI.name) && !database.BookID_Statusdupicate("WantToRead", index, LoginGUI.name) && !database.BookID_Statusdupicate("CurrentlyReading", index, LoginGUI.name)) {
+                String Page_number = JOptionPane.showInputDialog(null, "Enter Page Number:");
+                int page = Integer.valueOf(Page_number);
+                database.insert_user_book(LoginGUI.name, index, "CurrentlyReading", page, null);
+            } else {
+                JOptionPane.showMessageDialog(null, "The book already added.");
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+        }
+
+    }//GEN-LAST:event_CurrentlyReadingActionPerformed
 
     /**
      * @param args the command line arguments

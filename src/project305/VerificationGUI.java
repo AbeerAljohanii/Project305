@@ -133,7 +133,7 @@ public class VerificationGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back_jButton1;
     private javax.swing.JTextField VerificationCode_jTextField1;
-    private javax.swing.JButton Verification_jButton1;
+    public static javax.swing.JButton Verification_jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

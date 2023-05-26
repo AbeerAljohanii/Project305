@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DataBase {
 
@@ -49,9 +51,8 @@ public class DataBase {
             Createstatement.executeUpdate("CREATE TABLE IF NOT EXISTS user_books (\n"
                     + "   username VARCHAR(50),\n"
                     + "   book_id INT,\n"
-                    + "   status VARCHAR(10),\n"
+                    + "   status VARCHAR(50),\n"
                     + "   page_number INT,\n"
-                    + "   PRIMARY KEY (username, book_id),\n"
                     + "   FOREIGN KEY (username) REFERENCES users(username),\n"
                     + "   FOREIGN KEY (book_id) REFERENCES book(bookID),\n"
                     + "   Review VARCHAR(200)\n"
@@ -109,18 +110,130 @@ public class DataBase {
     }
 
     public void insert_user_book(String username, int book_id, String status,
-            int page_number, Double rate) throws SQLException {
-        try (PreparedStatement statement = conn.prepareStatement("INSERT INTO user_books "
-                + "(username, book_id, status, page_number, rate) VALUES (?, ?, ?, ?, ?)")) {
+            int page_number, String Review) throws SQLException, ClassNotFoundException {
+        ConnectionDataBase();
+        PreparedStatement statement = conn.prepareStatement("INSERT INTO user_books "
+                + "(username, book_id, status, page_number, Review) VALUES (?, ?, ?, ?, ?)");
 
-            statement.setString(1, username);
-            statement.setInt(2, book_id);
-            statement.setString(3, status); // if status currently reading page # must be entered
-            statement.setInt(4, page_number);
-            statement.setDouble(5, rate); // only if status is read
-            statement.executeUpdate();
+        statement.setString(1, username);
+        statement.setInt(2, book_id);
+        statement.setString(3, status); // if status currently reading page # must be entered
+        statement.setInt(4, page_number);
+        statement.setString(5, Review); // only if status is read
+        statement.executeUpdate();
+    }
 
+    public ResultSet community(String username) throws ClassNotFoundException, SQLException {
+        ConnectionDataBase();
+        PreparedStatement statement = conn.prepareStatement("SELECT fname, lname, title, review \n"
+                + "FROM user_books \n"
+                + "JOIN book ON book.bookID = user_books.book_id \n"
+                + "JOIN users ON users.username = user_books.username \n"
+                + "WHERE user_books.status = ?; ");
+        statement.setString(1, "Read");
+        ResultSet community = statement.executeQuery();
+        System.out.println(community);
+        return community;
+
+    }
+
+    public boolean BookID_Statusdupicate(String status, int book_id, String username) {
+        try {
+            ConnectionDataBase();
+            PreparedStatement statement = conn.prepareStatement("select * from user_books where book_id = ? AND status = ? AND username = ? ");
+            statement.setInt(1, book_id);
+            statement.setString(2, status);
+            statement.setString(3, LoginGUI.name);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
         }
+        return false;
+    }
+
+    public ResultSet PrintUser_Books(String status) throws ClassNotFoundException {
+        try {
+            ConnectionDataBase();
+            Statement st = conn.createStatement();
+            String query = "SELECT DISTINCT * FROM book JOIN user_books ON book.bookID = user_books.book_id where username = ? AND status = ?";
+            PreparedStatement statement1 = conn.prepareStatement(query);
+            statement1.setString(1, LoginGUI.name);
+            statement1.setString(2, status);
+            ResultSet rs1 = statement1.executeQuery();
+            return rs1;
+
+        } catch (SQLException ex) {
+        }
+        return null;
+    }
+
+    public void SearchUpdateStatus(String title, String status) {
+        try {
+            ConnectionDataBase();
+            PreparedStatement statement = conn.prepareStatement("select bookID from book where title = ?");
+            statement.setString(1, title);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int bookid = rs.getInt("bookID");
+                statement = conn.prepareStatement("UPDATE user_books SET status = ? , page_number = ? WHERE book_id = ?");
+                statement.setString(1, status);
+                statement.setInt(2, 0);
+                statement.setInt(3, bookid);
+                statement.executeUpdate();
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+        }
+    }
+
+    public void SearchUpdatepage(String title, int page) {
+        try {
+            ConnectionDataBase();
+            PreparedStatement statement = conn.prepareStatement("select bookID from book where title = ?");
+            statement.setString(1, title);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int bookid = rs.getInt("bookID");
+                statement = conn.prepareStatement("UPDATE user_books SET page_number = ? WHERE book_id = ?");
+                statement.setInt(1, page);
+                statement.setInt(2, bookid);
+                statement.executeUpdate();
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+        }
+    }
+
+    public void SearchUpdateReview(String title, String Review) {
+        try {
+            ConnectionDataBase();
+            PreparedStatement statement = conn.prepareStatement("select bookID from book where title = ?");
+            statement.setString(1, title);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int bookid = rs.getInt("bookID");
+                statement = conn.prepareStatement("UPDATE user_books SET Review = ? WHERE book_id = ?");
+                statement.setString(1, Review);
+                statement.setInt(2, bookid);
+                statement.executeUpdate();
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+        }
+    }
+
+    // check if email exists
+    public boolean checkDuplicateBookID(int BookID) throws SQLException {
+        try {
+            ConnectionDataBase();
+            PreparedStatement statement = conn.prepareStatement("select * from book where BookID= ?");
+            statement.setInt(1, BookID);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (ClassNotFoundException ex) {
+        }
+        return false;
     }
 
     public void raedBook() throws FileNotFoundException, IOException, SQLException, ClassNotFoundException {
@@ -141,11 +254,8 @@ public class DataBase {
             PreparedStatement statement = conn.prepareStatement("UPDATE users SET password = ? WHERE email = ?");
             statement.setString(1, newPassword);
             statement.setString(2, email);
-
             statement.executeUpdate();
-
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -160,7 +270,6 @@ public class DataBase {
                 return true;
             }
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
         }
         return false;
     }
@@ -177,7 +286,6 @@ public class DataBase {
                 return true;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         return false;
     }
@@ -187,16 +295,13 @@ public class DataBase {
         try {
             ConnectionDataBase();
             PreparedStatement statement = conn.prepareStatement("select * from users where username = ? AND password = ?");
-
             statement.setString(1, username);
             statement.setString(2, Password);
-
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 return true;
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         return false;
     }
@@ -213,7 +318,6 @@ public class DataBase {
             if (rs.next()) {
                 String email = rs.getString("email");
                 result += " " + email;
-
             }
             // count # of books for each status
             statement = conn.prepareStatement("SELECT COUNT(*) FROM user_books where username = ? AND status = ?");
@@ -256,7 +360,6 @@ public class DataBase {
             return result;
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         return null;
     }
@@ -269,7 +372,6 @@ public class DataBase {
             ResultSet rs = st.executeQuery(sql);
             return rs;
         } catch (SQLException ex) {
-            ex.printStackTrace();
         }
         return null;
     }

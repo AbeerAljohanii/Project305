@@ -8,6 +8,7 @@ public class SignupGUI extends javax.swing.JFrame {
     /**
      * Creates new form SignGUI
      */
+    static String Username;
     public SignupGUI() {
         initComponents();
     }
@@ -168,13 +169,12 @@ public class SignupGUI extends javax.swing.JFrame {
         try {
             flag = signupOb.isValid(Username, Fname, Lname, Email, Phone, password, passwordConf);
         } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
         }
         if (flag) {
             //open home page and close this page 
-            HomeGUI homePage = new HomeGUI();
+            LoginGUI login = new LoginGUI();
             this.show(false);
-            homePage.show(true);
+            login.show(true);
         }
 
     }//GEN-LAST:event_SignupActionPerformed

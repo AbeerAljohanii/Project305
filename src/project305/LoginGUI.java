@@ -116,7 +116,6 @@ public class LoginGUI extends javax.swing.JFrame {
         try {
             flag = login.isValid(name, password);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         /*if the username and password correct 
             show the home frame and close this one */

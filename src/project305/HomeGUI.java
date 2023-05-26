@@ -7,11 +7,12 @@ package project305;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 import javax.swing.table.DefaultTableModel;
 
 public class HomeGUI extends javax.swing.JFrame {
+
+    DataBase database = new DataBase();
 
     /**
      * Creates new form HomeGUI
@@ -119,17 +120,56 @@ public class HomeGUI extends javax.swing.JFrame {
 
     private void CurrentlyReadingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CurrentlyReadingActionPerformed
         CurrentReadGUI CurrentRead = new CurrentReadGUI();
+        try {
+            ResultSet rs = database.PrintUser_Books("CurrentlyReading");
+            if (CurrentReadGUI.BooksTable.getModel().getRowCount() == 0) {
+                while (rs.next()) {
+                    String title = rs.getString("title");
+                    String author = rs.getString("authorName");
+                    String publishDate = rs.getString("publishDate");
+
+                    String inputString = publishDate;
+                    String wordToRemove = "published";
+                    String remainingString = inputString.replace(wordToRemove, "");
+
+                    String BookTable[] = {title, author, remainingString};
+                    CurrentReadGUI.BooksTable.getColumnModel().getColumn(0).setPreferredWidth(180);
+                    CurrentReadGUI.BooksTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+
+                    DefaultTableModel models = (DefaultTableModel) CurrentReadGUI.BooksTable.getModel();
+                    models.addRow(BookTable);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+        }
         CurrentRead.show(true);
         this.show(false);
-
     }//GEN-LAST:event_CurrentlyReadingActionPerformed
 
     private void WantToReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WantToReadActionPerformed
-        BooksGUI booksGUI = new BooksGUI();
-        booksGUI.BooksTable.getColumnModel().getColumn(0).setPreferredWidth(180);
-        booksGUI.BooksTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-
         WantToReadGUI WantToRead = new WantToReadGUI();
+        try {
+            ResultSet rs = database.PrintUser_Books("WantToRead");
+            if (WantToReadGUI.BooksTable.getModel().getRowCount() == 0) {
+                while (rs.next()) {
+                    String title = rs.getString("title");
+                    String author = rs.getString("authorName");
+                    String publishDate = rs.getString("publishDate");
+
+                    String inputString = publishDate;
+                    String wordToRemove = "published";
+                    String remainingString = inputString.replace(wordToRemove, "");
+
+                    String BookTable[] = {title, author, remainingString};
+                    WantToReadGUI.BooksTable.getColumnModel().getColumn(0).setPreferredWidth(180);
+                    WantToReadGUI.BooksTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+
+                    DefaultTableModel models = (DefaultTableModel) WantToReadGUI.BooksTable.getModel();
+                    models.addRow(BookTable);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+        }
         WantToRead.show(true);
         this.show(false);
 
@@ -137,9 +177,30 @@ public class HomeGUI extends javax.swing.JFrame {
 
     private void ReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReadActionPerformed
         ReadGUI Read = new ReadGUI();
+        try {
+            ResultSet rs = database.PrintUser_Books("Read");
+            if (Read.BooksTable.getModel().getRowCount() == 0) {
+                while (rs.next()) {
+                    String title = rs.getString("title");
+                    String author = rs.getString("authorName");
+                    String publishDate = rs.getString("publishDate");
+
+                    String inputString = publishDate;
+                    String wordToRemove = "published";
+                    String remainingString = inputString.replace(wordToRemove, "");
+
+                    String BookTable[] = {title, author, remainingString};
+                    Read.BooksTable.getColumnModel().getColumn(0).setPreferredWidth(180);
+                    Read.BooksTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+
+                    DefaultTableModel models = (DefaultTableModel) Read.BooksTable.getModel();
+                    models.addRow(BookTable);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+        }
         Read.show(true);
         this.show(false);
-
     }//GEN-LAST:event_ReadActionPerformed
 
     private void BooksMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BooksMenuActionPerformed
@@ -148,37 +209,58 @@ public class HomeGUI extends javax.swing.JFrame {
         BooksGUI booksGUI = new BooksGUI();
         try {
             ResultSet rs = database.books();
-            while (rs.next()) {
-                String title = rs.getString("title");
-                String author = rs.getString("authorName");
-                String publishDate = rs.getString("publishDate");
+            if (booksGUI.BooksTable.getModel().getRowCount() == 0) {
+                while (rs.next()) {
+                    String title = rs.getString("title");
+                    String author = rs.getString("authorName");
+                    String publishDate = rs.getString("publishDate");
 
-                String inputString = publishDate;
-                String wordToRemove = "published";
-                String remainingString = inputString.replace(wordToRemove, "");
+                    String inputString = publishDate;
+                    String wordToRemove = "published";
+                    String remainingString = inputString.replace(wordToRemove, "");
 
-                String BookTable[] = {title, author, remainingString};
-                booksGUI.BooksTable.getColumnModel().getColumn(0).setPreferredWidth(180);
-                booksGUI.BooksTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+                    String BookTable[] = {title, author, remainingString};
+                    booksGUI.BooksTable.getColumnModel().getColumn(0).setPreferredWidth(180);
+                    booksGUI.BooksTable.getColumnModel().getColumn(1).setPreferredWidth(100);
 
-                DefaultTableModel models = (DefaultTableModel) booksGUI.BooksTable.getModel();
-                models.addRow(BookTable);
+                    DefaultTableModel models = (DefaultTableModel) booksGUI.BooksTable.getModel();
+                    models.addRow(BookTable);
 
+                }
             }
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (ClassNotFoundException | SQLException ex) {
         }
+
         booksGUI.show(true);
         this.show(false);
     }//GEN-LAST:event_BooksMenuActionPerformed
 
     private void CommunityMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CommunityMenuActionPerformed
-        // TODO add your handling code here:
         CommunityGUI community = new CommunityGUI();
+        DataBase database = new DataBase();
+        try {
+            ResultSet rs = database.community(LoginGUI.name);
+            if (community.ReviewsTable.getModel().getRowCount() == 0) {
+
+                while (rs.next()) {
+                    String Name = rs.getString("fname") + " " + rs.getString("lname");
+                    String Tital = rs.getString("title");
+                    String Review = rs.getString("Review");
+
+                    String ReviewTable[] = {Name, Tital, Review};
+                    community.ReviewsTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+                    community.ReviewsTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+
+                    DefaultTableModel models = (DefaultTableModel) community.ReviewsTable.getModel();
+                    models.addRow(ReviewTable);
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+        } catch (SQLException ex) {
+        }
         community.show(true);
         this.show(false);
+
     }//GEN-LAST:event_CommunityMenuActionPerformed
 
     private void ProfileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProfileMenuActionPerformed
@@ -187,16 +269,14 @@ public class HomeGUI extends javax.swing.JFrame {
         DataBase db = new DataBase();
         StringTokenizer tokenizer;
         try {
-            tokenizer = new StringTokenizer(db.ProfileInfo(LoginGUI.name));
-
-            profile.ProfileName.setText(tokenizer.nextToken());
-            profile.ProfileEmail.setText(tokenizer.nextToken());
-            profile.NumberOfCurrentRead.setText(tokenizer.nextToken());
-            profile.NumberOfWantRead.setText(tokenizer.nextToken());
-            profile.NumberOfRead.setText(tokenizer.nextToken());
+            tokenizer = new StringTokenizer(db.ProfileInfo(LoginGUI.name)); // ||SignupGUI.user
+            ProfileGUI.ProfileName.setText(tokenizer.nextToken());
+            ProfileGUI.ProfileEmail.setText(tokenizer.nextToken());
+            ProfileGUI.NumberOfCurrentRead.setText(tokenizer.nextToken());
+            ProfileGUI.NumberOfWantRead.setText(tokenizer.nextToken());
+            ProfileGUI.NumberOfRead.setText(tokenizer.nextToken());
 
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
         }
         profile.show(true);
         this.show(false);
